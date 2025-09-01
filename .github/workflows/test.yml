@@ -15,7 +15,7 @@ jobs:
   check-types-py:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: extractions/setup-just@v3
       - uses: astral-sh/setup-uv@v6
         with:
@@ -25,7 +25,7 @@ jobs:
   lint-py:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: extractions/setup-just@v3
       - uses: astral-sh/setup-uv@v6
         with:
@@ -43,7 +43,7 @@ jobs:
           - "3.12"
           - "3.13"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: extractions/setup-just@v3
       - uses: astral-sh/setup-uv@v6
         with:
@@ -54,7 +54,7 @@ jobs:
   check-types-ts:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: extractions/setup-just@v3
       - uses: actions/setup-node@v4
       - run: just install-ts check-types-ts
@@ -62,7 +62,7 @@ jobs:
   lint-ts:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: extractions/setup-just@v3
       - uses: actions/setup-node@v4
       - run: just install-ts lint-ts
