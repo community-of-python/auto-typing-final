@@ -23,7 +23,7 @@ auto-typing-final = "auto_typing_final.main:main"
 auto-typing-final-lsp-server = "auto_typing_final.lsp:main"
 
 [dependency-groups]
-dev = ["mypy==1.17.1", "pytest==8.4.1", "pytest-cov==6.2.1", "ruff==0.12.11"]
+dev = ["mypy==1.17.1", "pytest==8.4.2", "pytest-cov==6.3.0", "ruff==0.12.12"]
 
 [build-system]
 requires = ["hatchling", "hatch-vcs"]
