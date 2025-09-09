@@ -226,6 +226,7 @@ export async function activate(context: vscode.ExtensionContext) {
 					);
 					if (workspaceFolder) return workspaceFolder;
 				}
+				return undefined;
 			})
 			.filter((value) => value !== undefined);
 	}
