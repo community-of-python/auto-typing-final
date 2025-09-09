@@ -226,6 +226,7 @@ export async function activate(context: vscode.ExtensionContext) {
 					);
 					if (workspaceFolder) return workspaceFolder;
 				}
+				return undefined;
 			})
 			.filter((value) => value !== undefined);
 	}
@@ -235,7 +236,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		(await getPythonExtension())?.environments.onDidChangeActiveEnvironmentPath(
 			async ({ resource }) => {
 				if (!resource) return;
-				await clientManager.updateExecutableForWorkspace(resource);
+				await clientManager.updateExecutableForWorkspace(resource as vscode.WorkspaceFolder);
 			},
 		) || { dispose: () => undefined },
 		vscode.commands.registerCommand(`${EXTENSION_NAME}.restart`, async () => {
