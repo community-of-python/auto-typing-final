@@ -80,7 +80,7 @@ def main() -> int:
                 file.write(transformed_content)
                 file.truncate()
 
-    match changed_files_count, cast(bool, args.check):
+    match changed_files_count, cast("bool", args.check):
         case 0, _:
             result_message = "No errors found!"
         case 1, True:

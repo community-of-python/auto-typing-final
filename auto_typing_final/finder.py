@@ -107,9 +107,10 @@ def _find_identifiers_made_by_node(node: SgNode) -> Iterable[SgNode]:  # noqa: C
             yield from _find_identifiers_in_import_statement(node)
         case "as_pattern":
             match tuple((child.kind(), child) for child in node.children()):
-                case (
-                    (("identifier", _), ("as", _), ("as_pattern_target", alias))
-                    | (("case_pattern", _), ("as", _), ("identifier", alias))
+                case (("identifier", _), ("as", _), ("as_pattern_target", alias)) | (
+                    ("case_pattern", _),
+                    ("as", _),
+                    ("identifier", alias),
                 ):
                     yield alias
         case "keyword_pattern":
