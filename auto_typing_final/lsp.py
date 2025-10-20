@@ -297,7 +297,7 @@ def code_action(ls: CustomLanguageServer, params: lsp.CodeActionParams) -> list[
 @LSP_SERVER.feature(lsp.CODE_ACTION_RESOLVE)
 def resolve_code_action(ls: CustomLanguageServer, params: lsp.CodeAction) -> lsp.CodeAction:
     if ls.service:
-        text_document: Final = ls.workspace.get_text_document(cast(str, params.data))
+        text_document: Final = ls.workspace.get_text_document(cast("str", params.data))
         params.edit = lsp.WorkspaceEdit(
             document_changes=[
                 lsp.TextDocumentEdit(

@@ -9,12 +9,12 @@ from auto_typing_final.transform import IMPORT_STYLES_TO_IMPORT_CONFIGS, ImportC
 
 @pytest.fixture(params=IMPORT_STYLES_TO_IMPORT_CONFIGS.values())
 def import_config(request: pytest.FixtureRequest) -> ImportConfig:
-    return typing.cast(ImportConfig, request.param)
+    return typing.cast("ImportConfig", request.param)
 
 
 @pytest.fixture(params=[True, False])
 def ignore_global_vars(request: pytest.FixtureRequest) -> bool:
-    return typing.cast(bool, request.param)
+    return typing.cast("bool", request.param)
 
 
 def parse_md_test_cases(file_name: str) -> list[str]:
