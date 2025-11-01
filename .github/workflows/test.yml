@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: extractions/setup-just@v3
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v7
         with:
           cache-dependency-glob: "**/pyproject.toml"
       - run: just check-types
@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: extractions/setup-just@v3
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v7
         with:
           cache-dependency-glob: "**/pyproject.toml"
       - run: just lint
@@ -46,7 +46,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: extractions/setup-just@v3
-      - uses: astral-sh/setup-uv@v6
+      - uses: astral-sh/setup-uv@v7
         with:
           cache-dependency-glob: "**/pyproject.toml"
       - run: uv python install ${{ matrix.python-version }}
@@ -57,7 +57,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: extractions/setup-just@v3
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
       - run: just install-ts check-types-ts
 
   lint-ts:
@@ -65,5 +65,5 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: extractions/setup-just@v3
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
       - run: just install-ts lint-ts
