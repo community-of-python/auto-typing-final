@@ -57,13 +57,13 @@
 		"vscode-languageclient": "^9.0.1"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.4.4",
-		"@types/node": "^25.3.3",
-		"@types/vscode": "^1.109.0",
+		"@biomejs/biome": "2.4.10",
+		"@types/node": "^25.5.0",
+		"@types/vscode": "^1.110.0",
 		"@vscode/python-extension": "^1.0.6",
 		"ts-loader": "^9.5.4",
-		"typescript": "^5.9.3",
-		"webpack": "^5.105.3",
-		"webpack-cli": "^6.0.1"
+		"typescript": "^6.0.2",
+		"webpack": "^5.105.4",
+		"webpack-cli": "^7.0.2"
 	}
 }
