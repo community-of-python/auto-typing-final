@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: extractions/setup-just@v3
+      - uses: extractions/setup-just@v4
       - uses: astral-sh/setup-uv@v7
         with:
           cache-dependency-glob: "**/pyproject.toml"
@@ -26,7 +26,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: extractions/setup-just@v3
+      - uses: extractions/setup-just@v4
       - uses: astral-sh/setup-uv@v7
         with:
           cache-dependency-glob: "**/pyproject.toml"
@@ -45,7 +45,7 @@ jobs:
           - "3.14"
     steps:
       - uses: actions/checkout@v6
-      - uses: extractions/setup-just@v3
+      - uses: extractions/setup-just@v4
       - uses: astral-sh/setup-uv@v7
         with:
           cache-dependency-glob: "**/pyproject.toml"
@@ -56,7 +56,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: extractions/setup-just@v3
+      - uses: extractions/setup-just@v4
       - uses: actions/setup-node@v6
       - run: just install-ts check-types-ts
 
@@ -64,6 +64,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - uses: extractions/setup-just@v3
+      - uses: extractions/setup-just@v4
       - uses: actions/setup-node@v6
       - run: just install-ts lint-ts
