@@ -54,16 +54,16 @@
 		"package": "webpack --mode production --devtool hidden-source-map"
 	},
 	"dependencies": {
-		"vscode-languageclient": "^9.0.1"
+		"vscode-languageclient": "^10.0.1"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.4.16",
-		"@types/node": "^25.9.1",
-		"@types/vscode": "^1.120.0",
+		"@biomejs/biome": "2.5.1",
+		"@types/node": "^26.0.1",
+		"@types/vscode": "^1.125.0",
 		"@vscode/python-extension": "^1.0.6",
-		"ts-loader": "^9.6.0",
+		"ts-loader": "^9.6.2",
 		"typescript": "^6.0.3",
-		"webpack": "^5.107.2",
-		"webpack-cli": "^7.0.3"
+		"webpack": "^5.108.3",
+		"webpack-cli": "^7.1.0"
 	}
 }
