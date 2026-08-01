@@ -57,7 +57,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: extractions/setup-just@v4
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
       - run: just install-ts check-types-ts
 
   lint-ts:
@@ -65,5 +65,5 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: extractions/setup-just@v4
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@v7
       - run: just install-ts lint-ts
