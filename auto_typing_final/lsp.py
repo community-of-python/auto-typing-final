@@ -12,7 +12,7 @@ import attr
 import cattrs
 import lsprotocol.types as lsp
 from ast_grep_py import SgRoot
-from pygls.server import LanguageServer
+from pygls.lsp.server import LanguageServer
 
 from auto_typing_final.transform import (
     IMPORT_STYLES_TO_IMPORT_CONFIGS,
@@ -52,27 +52,27 @@ ClientSettings = TypedDict("ClientSettings", {"import-style": ImportStyle, "igno
 FullClientSettings = TypedDict("FullClientSettings", {"auto-typing-final": ClientSettings})
 
 
-def parse_settings(raw_full_client_settings: Any) -> FullClientSettings | None:  # noqa: ANN401
+def log_message(message: str) -> None:
+    LSP_SERVER.window_log_message(lsp.LogMessageParams(type=lsp.MessageType.Log, message=message))
+
+
+def parse_settings(raw_full_client_settings: Any) -> FullClientSettings | None:  # ruff: ignore[any-type]
     if not isinstance(raw_full_client_settings, dict):
-        LSP_SERVER.show_message_log(
-            f"invalid settings format: expected a dictionary. Settings: {raw_full_client_settings}"
-        )
+        log_message(f"invalid settings format: expected a dictionary. Settings: {raw_full_client_settings}")
         return None
     client_settings: Final = raw_full_client_settings.get("auto-typing-final")
     if not isinstance(client_settings, dict):
-        LSP_SERVER.show_message_log(
+        log_message(
             f"invalid settings format: 'auto-typing-final' is not a dictionary. Settings: {raw_full_client_settings}"
         )
         return None
     if client_settings.get("import-style") not in {"typing-final", "final"}:
-        LSP_SERVER.show_message_log(
+        log_message(
             f"invalid import-style setting: must be 'typing-final' or 'final'. Settings: {raw_full_client_settings}"
         )
         return None
     if not isinstance(client_settings.get("ignore-global-vars"), bool):
-        LSP_SERVER.show_message_log(
-            f"invalid ignore-global-vars setting: must be a boolean. Settings: {raw_full_client_settings}"
-        )
+        log_message(f"invalid ignore-global-vars setting: must be a boolean. Settings: {raw_full_client_settings}")
         return None
     return typing.cast("FullClientSettings", raw_full_client_settings)
 
@@ -109,7 +109,7 @@ class Service:
     ignore_global_vars: bool
 
     @staticmethod
-    def try_from_settings(ls_name: str, settings: Any) -> "Service | None":  # noqa: ANN401
+    def try_from_settings(ls_name: str, settings: Any) -> "Service | None":  # ruff: ignore[any-type]
         validated_settings: Final = parse_settings(settings)
         if validated_settings is None:
             return None
@@ -184,14 +184,18 @@ class CustomLanguageServer(LanguageServer):
 LSP_SERVER: Final = CustomLanguageServer(name="auto-typing-final", version=version("auto-typing-final"), max_workers=5)
 
 
+def publish_diagnostics(ls: CustomLanguageServer, uri: str, diagnostics: list[lsp.Diagnostic]) -> None:
+    ls.text_document_publish_diagnostics(lsp.PublishDiagnosticsParams(uri=uri, diagnostics=diagnostics))
+
+
 @LSP_SERVER.feature(lsp.INITIALIZE)
 def initialize(_: lsp.InitializeParams) -> None: ...
 
 
 @LSP_SERVER.feature(lsp.INITIALIZED)
 async def initialized(ls: CustomLanguageServer, _: lsp.InitializedParams) -> None:
-    await ls.register_capability_async(
-        params=lsp.RegistrationParams(
+    await ls.client_register_capability_async(
+        lsp.RegistrationParams(
             registrations=[
                 lsp.Registration(
                     id=str(uuid.uuid4()),
@@ -201,17 +205,17 @@ async def initialized(ls: CustomLanguageServer, _: lsp.InitializedParams) -> Non
             ]
         )
     )
-    LSP_SERVER.show_message_log("language server initialized")
+    log_message("language server initialized")
 
 
 @LSP_SERVER.feature(lsp.WORKSPACE_DID_CHANGE_CONFIGURATION)
 def workspace_did_change_configuration(ls: CustomLanguageServer, params: lsp.DidChangeConfigurationParams) -> None:
-    LSP_SERVER.show_message_log("handling workspace configuration change")
+    log_message("handling workspace configuration change")
     ls.service = Service.try_from_settings(ls_name=ls.name, settings=params.settings) or ls.service
     if not ls.service:
         return
     for text_document in ls.workspace.text_documents.values():
-        ls.publish_diagnostics(text_document.uri, diagnostics=ls.service.make_diagnostics(text_document.source))
+        publish_diagnostics(ls, text_document.uri, ls.service.make_diagnostics(text_document.source))
 
 
 @LSP_SERVER.feature(lsp.TEXT_DOCUMENT_DID_OPEN)
@@ -226,12 +230,12 @@ def did_open_did_save_did_change(
     if ls.service.path_is_ignored(params.text_document.uri):
         return
     text_document: Final = ls.workspace.get_text_document(params.text_document.uri)
-    ls.publish_diagnostics(text_document.uri, diagnostics=ls.service.make_diagnostics(text_document.source))
+    publish_diagnostics(ls, text_document.uri, ls.service.make_diagnostics(text_document.source))
 
 
 @LSP_SERVER.feature(lsp.TEXT_DOCUMENT_DID_CLOSE)
 def did_close(ls: CustomLanguageServer, params: lsp.DidCloseTextDocumentParams) -> None:
-    ls.publish_diagnostics(params.text_document.uri, [])
+    publish_diagnostics(ls, params.text_document.uri, [])
 
 
 @LSP_SERVER.feature(
