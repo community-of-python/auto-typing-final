@@ -9,13 +9,26 @@
 		"type": "git",
 		"url": "https://github.com/community-of-python/auto-typing-final.git"
 	},
-	"keywords": ["python", "linting", "mypy"],
+	"keywords": [
+		"python",
+		"linting",
+		"mypy"
+	],
 	"engines": {
 		"vscode": "^1.120.0"
 	},
-	"categories": ["Programming Languages", "Linters", "Formatters"],
-	"extensionDependencies": ["ms-python.python"],
-	"activationEvents": ["onLanguage:python", "workspaceContains:*.py"],
+	"categories": [
+		"Programming Languages",
+		"Linters",
+		"Formatters"
+	],
+	"extensionDependencies": [
+		"ms-python.python"
+	],
+	"activationEvents": [
+		"onLanguage:python",
+		"workspaceContains:*.py"
+	],
 	"main": "./dist/extension.js",
 	"contributes": {
 		"commands": [
@@ -29,7 +42,10 @@
 			"properties": {
 				"auto-typing-final.import-style": {
 					"default": "typing-final",
-					"enum": ["typing-final", "final"],
+					"enum": [
+						"typing-final",
+						"final"
+					],
 					"enumDescriptions": [
 						"Use `import typing` and `typing.Final`",
 						"Use `from typing import Final` and `Final`"
@@ -62,7 +78,7 @@
 		"@types/vscode": "^1.144.0",
 		"@vscode/python-extension": "^1.0.6",
 		"ts-loader": "^9.6.2",
-		"typescript": "^7.0.2",
+		"typescript": "~5.9.3",
 		"webpack": "^5.112.2",
 		"webpack-cli": "^7.2.3"
 	}
